@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For Noor-UL-Ain ❤️</title>
+
+<style>
+body {
+    font-family: 'Georgia', serif;
+    background: linear-gradient(to right, #fdeff9, #ec38bc);
+    text-align: center;
+    padding: 40px;
+}
+
+/* Input Area */
+textarea {
+    width: 80%;
+    height: 150px;
+    padding: 15px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    resize: none;
+}
+
+button {
+    margin-top: 15px;
+    padding: 12px 30px;
+    font-size: 16px;
+    background: #ff5e7e;
+    border: none;
+    border-radius: 25px;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #ff3b64;
+}
+
+/* Envelope */
+.envelope {
+    width: 320px;
+    height: 200px;
+    background: #fff;
+    margin: 50px auto;
+    position: relative;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    display: none;
+}
+
+/* Stamp */
+.stamp {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    border: 2px dashed #ff5e7e;
+    padding: 8px;
+    font-size: 14px;
+    color: #ff5e7e;
+    font-weight: bold;
+}
+
+/* Letter inside */
+.letter {
+    display: none;
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    width: 70%;
+    margin: 30px auto;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    text-align: left;
+    animation: fadeIn 1s;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: scale(0.9);}
+    to {opacity: 1; transform: scale(1);}
+}
+
+h2 {
+    text-align: center;
+    color: #ff5e7e;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Write Your Letter 💖</h1>
+
+<textarea id="letterInput" placeholder="Write your heart here..."></textarea>
+<br>
+<button onclick="createLetter()">Seal the Letter</button>
+
+<!-- Envelope -->
+<div class="envelope" id="envelope" onclick="openLetter()">
+    <div class="stamp">To Noor-UL-Ain</div>
+</div>
+
+<!-- Letter Content -->
+<div class="letter" id="letter">
+    <h2>For Noor-UL-Ain ❤️</h2>
+    <p id="letterText"></p>
+</div>
+
+<script>
+function createLetter() {
+    const text = document.getElementById("letterInput").value;
+    if (text.trim() === "") {
+        alert("Please write something first 💌");
+        return;
+    }
+    document.getElementById("letterText").innerText = text;
+    document.getElementById("envelope").style.display = "block";
+}
+
+function openLetter() {
+    document.getElementById("envelope").style.display = "none";
+    document.getElementById("letter").style.display = "block";
+}
+</script>
+
+</body>
+</html>
