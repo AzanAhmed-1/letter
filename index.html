@@ -10,118 +10,171 @@ body {
     background: linear-gradient(to right, #fdeff9, #ec38bc);
     text-align: center;
     padding: 40px;
-}
-
-/* Input Area */
-textarea {
-    width: 80%;
-    height: 150px;
-    padding: 15px;
-    font-size: 16px;
-    border-radius: 10px;
-    border: none;
-    outline: none;
-    resize: none;
-}
-
-button {
-    margin-top: 15px;
-    padding: 12px 30px;
-    font-size: 16px;
-    background: #ff5e7e;
-    border: none;
-    border-radius: 25px;
-    color: white;
-    cursor: pointer;
-}
-
-button:hover {
-    background: #ff3b64;
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
 /* Envelope */
 .envelope {
-    width: 320px;
-    height: 200px;
+    width: 340px;
+    height: 220px;
     background: #fff;
-    margin: 50px auto;
+    margin: 120px auto;
     position: relative;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-    display: none;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+    animation: float 2s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+    100% { transform: translateY(0); }
 }
 
 /* Stamp */
 .stamp {
     position: absolute;
-    top: 15px;
-    right: 15px;
+    top: 18px;
+    right: 18px;
     border: 2px dashed #ff5e7e;
-    padding: 8px;
+    padding: 8px 12px;
     font-size: 14px;
     color: #ff5e7e;
     font-weight: bold;
+    background: #fff;
 }
 
-/* Letter inside */
+/* Letter */
 .letter {
     display: none;
     background: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    width: 70%;
-    margin: 30px auto;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    padding: 35px;
+    border-radius: 14px;
+    width: 85%;
+    max-width: 750px;
+    margin: 40px auto;
+    box-shadow: 0 18px 40px rgba(0,0,0,0.35);
     text-align: left;
-    animation: fadeIn 1s;
-}
-
-@keyframes fadeIn {
-    from {opacity: 0; transform: scale(0.9);}
-    to {opacity: 1; transform: scale(1);}
 }
 
 h2 {
     text-align: center;
     color: #ff5e7e;
 }
+
+#typedText {
+    white-space: pre-line;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+/* Signature */
+.signature {
+    margin-top: 40px;
+    text-align: right;
+    font-style: italic;
+}
+
+/* Hearts */
+.heart {
+    position: fixed;
+    bottom: 0;
+    font-size: 20px;
+    animation: floatUp 3s linear forwards;
+    pointer-events: none;
+}
+
+@keyframes floatUp {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-600px); opacity: 0; }
+}
 </style>
 </head>
 
 <body>
 
-<h1>Write Your Letter 💖</h1>
-
-<textarea id="letterInput" placeholder="Write your heart here..."></textarea>
-<br>
-<button onclick="createLetter()">Seal the Letter</button>
-
-<!-- Envelope -->
 <div class="envelope" id="envelope" onclick="openLetter()">
     <div class="stamp">To Noor-UL-Ain</div>
 </div>
 
-<!-- Letter Content -->
 <div class="letter" id="letter">
     <h2>For Noor-UL-Ain ❤️</h2>
-    <p id="letterText"></p>
+    <div id="typedText"></div>
+
+    <div class="signature">
+        — Azan Ahmed  
+        <br>15 December 2025
+    </div>
 </div>
 
+<!-- Music -->
+<audio id="music" src="dekha_hi_nahi.mp3" loop></audio>
+
 <script>
-function createLetter() {
-    const text = document.getElementById("letterInput").value;
-    if (text.trim() === "") {
-        alert("Please write something first 💌");
-        return;
-    }
-    document.getElementById("letterText").innerText = text;
-    document.getElementById("envelope").style.display = "block";
-}
+const letterText = `My Noor,
+
+Hiii  
+You know I have been thinking of writing letters and like give you a shit ton of those when you come to GIKI  
+But yes I’m lazy as hell and I wanted to write something abhi  
+I have zero things to tell you because I tell you all my thoughts as I’m thinking but yes  
+
+I really love you Noor-UL-Ain  
+You’re literally the most perfect girlfriend  
+You’re the perfect mix  
+
+And I love the fact that you don’t say no to my dumb ahh requests unless it’s just really outrageous and it’s justified tbh  
+
+I really love you  
+All my thoughts have you in them  
+Unless I’m thinking about all the quizzes I have to prepare for, you  
+
+You’re a really fun person to talk to  
+I really like the fact that we met no matter how it happened or what we had to go through to get here  
+I’m just happy I got you in the end  
+It was the best possible outcome  
+
+I would ask you out every day if I could only to see a part of the actual smile if not the entire smile you had the moment I asked you to date me  
+
+To end this one, I just wanna say I love you to the moon and back  
+
+And…  
+
+Jaan-e-man                     Jaan-e-Jahan  
+Tum sabse haseen          Tum sabse jahan`;
+
+let index = 0;
 
 function openLetter() {
     document.getElementById("envelope").style.display = "none";
     document.getElementById("letter").style.display = "block";
+
+    // Start music (browser-safe)
+    document.getElementById("music").play();
+
+    // Heart burst
+    for (let i = 0; i < 30; i++) createHeart();
+
+    // Start typing
+    typeLetter();
+}
+
+function typeLetter() {
+    if (index < letterText.length) {
+        document.getElementById("typedText").innerText += letterText.charAt(index);
+        index++;
+        setTimeout(typeLetter, 30);
+    }
+}
+
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerText = "❤️";
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 3000);
 }
 </script>
 
